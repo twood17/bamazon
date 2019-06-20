@@ -13,6 +13,13 @@ CREATE TABLE products (
     PRIMARY KEY (item_id)
 );
 
+CREATE TABLE departments (
+	department_id INT AUTO_INCREMENT,
+    department_name VARCHAR(30) NOT NULL UNIQUE,
+    over_head_costs DEC(20, 2) DEFAULT 0,
+    PRIMARY KEY (department_id)
+);
+
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUE ("Wheel of Time", "Books", 19.95, 10);
 

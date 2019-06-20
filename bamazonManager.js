@@ -146,3 +146,56 @@ function addInventory() {
         });
     });
   }
+
+  function addProduct() {
+    inquirer.prompt([
+      {
+        name: "item",
+        type: "input",
+        message: "What item would you like add to the inventory?"
+      },
+      {
+        name: "department",
+        type: "input",
+        message: "What department will the item be placed in?"
+      },
+      {
+        name: "price",
+        type: "input",
+        message: "How much will you be selling the item for?",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+      {
+        name: "stock",
+        type: "input",
+        message: "How many would you like to buy?",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      }
+    ])
+    .then(function(answer) {
+      connection.query(
+          "INSERT INTO products SET ?",
+          {
+              product_name: answer.item,
+              department_name: answer.department,
+              price: answer.price,
+              stock_quantity: answer.stock
+          },
+          function(err) {
+              if (err) throw err;
+              console.log("\nYou successfully added the product!\n");
+              managerView();
+            }
+      );
+    });
+  }
