@@ -18,17 +18,13 @@ connection.connect(function (err) {
 });
 
 function showProducts() {
-    var sql = "SELECT item_id,product_name,price from products";
+    var sql = "SELECT item_id,product_name,price,stock_quantity from products";
     connection.query(sql, function (err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
             console.log(
-                "Item ID: " +
-                res[i].item_id +
-                " || Product: " +
-                res[i].product_name +
-                " || Price: " +
-                res[i].price
+                "Item ID: " + res[i].item_id + " || Product: " + res[i].product_name +" || Price: " + res[i].price + " || Items on hand: " +
+                res[i].stock_quantity
             );
         }
         purchaseProduct();
@@ -65,9 +61,9 @@ function purchaseProduct() {
                     }
                 }
             ])
-            // with the users answers we run a loop that determines which item they are referring to
             .then(function (answer) {
                 var chosenItem;
+                // loop start to determine if there are enough items on hand.
                 for (var i = 0; i < res.length; i++) {
                     if (res[i].item_id === parseInt(answer.item)) {
                         chosenItem = res[i];
